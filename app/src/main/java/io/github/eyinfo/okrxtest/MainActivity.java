@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.eyinfo.android_pure_utils.events.Action1;
 import com.eyinfo.android_pure_utils.utils.JsonUtils;
+import com.eyinfo.mpkv.MPLocalKV;
 
 import io.github.eyinfo.okrx.OkRx;
 import io.github.eyinfo.okrx.OkRxManager;
@@ -13,12 +14,14 @@ import io.github.eyinfo.okrx.beans.ResponseData;
 import io.github.eyinfo.okrx.beans.SuccessResponse;
 import io.github.eyinfo.okrx.enums.RequestContentType;
 import io.github.eyinfo.okrx.events.OnBeanParsingJsonListener;
+import io.github.eyinfo.okrxtest.apis.VersionService;
 
 public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+        MPLocalKV.getInstance().init(this);
         OkRx.getInstance().initialize(this)
                 .setOnBeanParsingJsonListener(new OnBeanParsingJsonListener() {
                     @Override
@@ -36,6 +39,8 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void requestTest() {
+        VersionService versionService = new VersionService();
+        versionService.requestVersion();
         try {
             String url = "http://geease.cn:11000/mock/11/version/update";
             OkRxManager.getInstance().request(url, null, null, RequestContentType.None, null, new Action1<SuccessResponse>() {
