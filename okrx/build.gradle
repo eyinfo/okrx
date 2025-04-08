@@ -6,6 +6,8 @@ plugins {
     id "signing"
 }
 
+apply plugin: 'io.objectbox'
+
 android {
     namespace 'io.github.eyinfo.okrx'
     compileSdk 34
@@ -32,6 +34,11 @@ android {
 dependencies {
     implementation libs.appcompat
     implementation libs.material
+    api libs.android.pure.utils
+    api libs.okhttp
+    api libs.lombok
+    annotationProcessor(libs.lombok)
+    api libs.storage.objectbox
 }
 
 mavenPublishing {
